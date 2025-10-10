@@ -4,11 +4,16 @@
   "type": "module",
   "scripts": {
     "build": "react-router build",
-    "dev": "react-router dev",
+    "dev": "concurrently \"react-router dev\" \"contentlayer dev\"",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "lint": "eslint '**/*.{js,jsx,ts,tsx,yaml,yml}'",
+    "lint:fix": "eslint '**/*.{js,jsx,ts,tsx,yaml,yml}' --fix",
+    "prettier": "prettier --check '**/*.{ts,tsx,js,mjs,cjs,jsx,json}'",
+    "prettier:fix": "prettier --write '**/*.{ts,tsx,js,mjs,cjs,jsx,json}'"
   },
   "dependencies": {
+    "@react-router/fs-routes": "^7.9.4",
     "@react-router/node": "^7.9.2",
     "@react-router/serve": "^7.9.2",
     "contentlayer": "^0.3.4",
@@ -19,11 +24,16 @@
     "react-router": "^7.9.2"
   },
   "devDependencies": {
+    "@naverpay/editorconfig": "^1.0.0",
+    "@naverpay/eslint-config": "^2.3.2",
+    "@naverpay/eslint-plugin": "^2.2.1",
+    "@naverpay/prettier-config": "^1.0.1",
     "@react-router/dev": "^7.9.2",
     "@tailwindcss/vite": "^4.1.13",
     "@types/node": "^22",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
+    "concurrently": "^9.2.1",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.2",
     "vite": "^7.1.7",
