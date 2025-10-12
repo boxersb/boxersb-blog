@@ -1,16 +1,17 @@
 {
   "name": "boxersb-blog",
   "private": true,
+  "description": "A blog about web development and programming.",
   "type": "module",
   "scripts": {
     "build": "react-router build",
     "dev": "concurrently \"react-router dev\" \"contentlayer dev\"",
-    "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc",
     "lint": "eslint '**/*.{js,jsx,ts,tsx,yaml,yml}'",
     "lint:fix": "eslint '**/*.{js,jsx,ts,tsx,yaml,yml}' --fix",
     "prettier": "prettier --check '**/*.{ts,tsx,js,mjs,cjs,jsx,json}'",
-    "prettier:fix": "prettier --write '**/*.{ts,tsx,js,mjs,cjs,jsx,json}'"
+    "prettier:fix": "prettier --write '**/*.{ts,tsx,js,mjs,cjs,jsx,json}'",
+    "start": "react-router-serve ./build/server/index.js",
+    "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
     "@react-router/fs-routes": "^7.9.4",

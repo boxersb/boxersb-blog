@@ -8,3 +8,6 @@
 
 # IDE settings
 .vscode/
+
+# contentlayer
+.contentlayer
