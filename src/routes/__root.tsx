@@ -1,6 +1,8 @@
 import { Outlet, createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
 import appCss from '~/styles/app.css?url'
+import { Header } from '~/components/header/Header'
+import { Footer } from '~/components/Footer'
 
 export const Route = createRootRoute({
     head: () => ({
@@ -27,7 +29,9 @@ export const Route = createRootRoute({
 function RootComponent() {
     return (
         <RootDocument>
+            <Header />
             <Outlet />
+            <Footer />
         </RootDocument>
     )
 }
