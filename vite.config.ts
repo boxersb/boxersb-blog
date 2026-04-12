@@ -1,8 +1,26 @@
-import {reactRouter} from '@react-router/dev/vite'
+import path from 'node:path'
+import { defineConfig } from 'vite'
+import { tanstackStart } from '@tanstack/react-start/plugin/vite'
+import viteReact from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
-import {defineConfig} from 'vite'
-import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
-    plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
+    server: {
+        port: 3000,
+    },
+    resolve: {
+        alias: {
+            '~': path.resolve(import.meta.dirname, './src'),
+        },
+    },
+    plugins: [
+        tanstackStart({
+            prerender: {
+                enabled: true,
+                crawlLinks: true,
+            },
+        }),
+        viteReact(),
+        tailwindcss(),
+    ],
 })

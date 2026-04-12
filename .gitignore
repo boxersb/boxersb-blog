@@ -11,3 +11,11 @@
 
 # contentlayer
 .contentlayer
+
+# TanStack
+.vinxi/
+.output/
+.nitro/
+
+# Superpowers
+.superpowers/
