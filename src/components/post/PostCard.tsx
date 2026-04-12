@@ -16,7 +16,8 @@ export function PostCard({ post }: PostCardProps) {
 
     return (
         <Link
-            to={`/posts/${post.slug}` as '/'}
+            to="/posts/$slug"
+            params={{ slug: post.slug }}
             className="group block border-b py-6 transition-colors duration-[--duration-fast]"
             style={{ borderColor: 'var(--color-border)' }}
         >
