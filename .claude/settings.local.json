@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(head -30 /Users/user/workspace/boxersb-blog/posts/*.md)",
+      "Bash(bash:*)"
+    ]
+  }
+}

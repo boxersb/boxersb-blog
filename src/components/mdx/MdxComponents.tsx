@@ -1,30 +1,30 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import type {ComponentPropsWithoutRef} from 'react'
 
-function H1(props: ComponentPropsWithoutRef<'h1'>) {
-    return <h1 className="mt-10 mb-4 text-[clamp(32px,5vw,42px)] font-bold leading-[1.2]" {...props} />
+function H1(properties: ComponentPropsWithoutRef<'h1'>) {
+    return <h1 className="mt-10 mb-4 text-[clamp(32px,5vw,42px)] font-bold leading-[1.2]" {...properties} />
 }
 
-function H2(props: ComponentPropsWithoutRef<'h2'>) {
-    return <h2 className="mt-8 mb-3 text-[28px] font-semibold leading-[1.3]" {...props} />
+function H2(properties: ComponentPropsWithoutRef<'h2'>) {
+    return <h2 className="mt-8 mb-3 text-[28px] font-semibold leading-[1.3]" {...properties} />
 }
 
-function H3(props: ComponentPropsWithoutRef<'h3'>) {
-    return <h3 className="mt-6 mb-2 text-[22px] font-semibold leading-[1.4]" {...props} />
+function H3(properties: ComponentPropsWithoutRef<'h3'>) {
+    return <h3 className="mt-6 mb-2 text-[22px] font-semibold leading-[1.4]" {...properties} />
 }
 
-function P(props: ComponentPropsWithoutRef<'p'>) {
-    return <p className="mb-6 text-lg leading-[1.8]" style={{ color: 'var(--color-text)' }} {...props} />
+function P(properties: ComponentPropsWithoutRef<'p'>) {
+    return <p className="mb-6 text-lg leading-[1.8]" style={{color: 'var(--color-text)'}} {...properties} />
 }
 
-function A({ href, children, ...rest }: ComponentPropsWithoutRef<'a'>) {
+function A({href, children, ...rest}: ComponentPropsWithoutRef<'a'>) {
     const isExternal = href?.startsWith('http')
 
     return (
         <a
             href={href}
             className="underline underline-offset-2"
-            style={{ color: 'var(--color-accent)' }}
-            {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            style={{color: 'var(--color-accent)'}}
+            {...(isExternal ? {target: '_blank', rel: 'noopener noreferrer'} : {})}
             {...rest}
         >
             {children}
@@ -32,19 +32,19 @@ function A({ href, children, ...rest }: ComponentPropsWithoutRef<'a'>) {
     )
 }
 
-function Ul(props: ComponentPropsWithoutRef<'ul'>) {
-    return <ul className="mb-6 list-disc pl-6 text-lg leading-[1.8]" {...props} />
+function Ul(properties: ComponentPropsWithoutRef<'ul'>) {
+    return <ul className="mb-6 list-disc pl-6 text-lg leading-[1.8]" {...properties} />
 }
 
-function Ol(props: ComponentPropsWithoutRef<'ol'>) {
-    return <ol className="mb-6 list-decimal pl-6 text-lg leading-[1.8]" {...props} />
+function Ol(properties: ComponentPropsWithoutRef<'ol'>) {
+    return <ol className="mb-6 list-decimal pl-6 text-lg leading-[1.8]" {...properties} />
 }
 
-function Li(props: ComponentPropsWithoutRef<'li'>) {
-    return <li className="mb-1" {...props} />
+function Li(properties: ComponentPropsWithoutRef<'li'>) {
+    return <li className="mb-1" {...properties} />
 }
 
-function Blockquote(props: ComponentPropsWithoutRef<'blockquote'>) {
+function Blockquote(properties: ComponentPropsWithoutRef<'blockquote'>) {
     return (
         <blockquote
             className="mb-6 border-l-3 pl-4 italic"
@@ -52,37 +52,37 @@ function Blockquote(props: ComponentPropsWithoutRef<'blockquote'>) {
                 borderColor: 'var(--color-accent)',
                 color: 'var(--color-text-secondary)',
             }}
-            {...props}
+            {...properties}
         />
     )
 }
 
-function Code(props: ComponentPropsWithoutRef<'code'>) {
+function Code(properties: ComponentPropsWithoutRef<'code'>) {
     return (
         <code
             className="rounded px-1.5 py-0.5 font-mono text-[15px]"
-            style={{ backgroundColor: 'var(--color-code-bg)' }}
-            {...props}
+            style={{backgroundColor: 'var(--color-code-bg)'}}
+            {...properties}
         />
     )
 }
 
-function Pre(props: ComponentPropsWithoutRef<'pre'>) {
+function Pre(properties: ComponentPropsWithoutRef<'pre'>) {
     return (
         <pre
             className="mb-6 overflow-x-auto rounded-lg p-4 font-mono text-[15px] leading-[1.6]"
-            style={{ backgroundColor: 'var(--color-code-bg)' }}
-            {...props}
+            style={{backgroundColor: 'var(--color-code-bg)'}}
+            {...properties}
         />
     )
 }
 
-function Img(props: ComponentPropsWithoutRef<'img'>) {
-    return <img className="my-6 rounded-lg" loading="lazy" {...props} />
+function Img(properties: ComponentPropsWithoutRef<'img'>) {
+    return <img className="my-6 rounded-lg" loading="lazy" {...properties} />
 }
 
-function Hr(props: ComponentPropsWithoutRef<'hr'>) {
-    return <hr className="my-8" style={{ borderColor: 'var(--color-border)' }} {...props} />
+function Hr(properties: ComponentPropsWithoutRef<'hr'>) {
+    return <hr className="my-8" style={{borderColor: 'var(--color-border)'}} {...properties} />
 }
 
 export const mdxComponents = {

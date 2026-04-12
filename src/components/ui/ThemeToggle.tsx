@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react'
-import { applyTheme, getInitialTheme, toggleTheme } from '~/lib/theme'
+import {useCallback, useEffect, useState} from 'react'
+
+import {applyTheme, getInitialTheme, toggleTheme} from '~/lib/theme'
 
 type Theme = 'light' | 'dark'
 

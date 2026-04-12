@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+
 import matter from 'gray-matter'
 import readingTime from 'reading-time'
 
@@ -26,8 +27,8 @@ function parseMdxFile(slug: string): { meta: PostMeta; content: string } | null 
         return null
     }
 
-    const raw = fs.readFileSync(filePath, 'utf-8')
-    const { data, content } = matter(raw)
+    const raw = fs.readFileSync(filePath, 'utf8')
+    const {data, content} = matter(raw)
     const stats = readingTime(content)
 
     const meta: PostMeta = {
@@ -42,7 +43,7 @@ function parseMdxFile(slug: string): { meta: PostMeta; content: string } | null 
         readingTime: stats.text,
     }
 
-    return { meta, content }
+    return {meta, content}
 }
 
 export function getAllPosts(): PostMeta[] {

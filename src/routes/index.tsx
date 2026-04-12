@@ -1,9 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { createServerFn } from '@tanstack/react-start'
-import { getAllPosts } from '~/lib/posts'
-import { PostList } from '~/components/post/PostList'
+import {createFileRoute} from '@tanstack/react-router'
+import {createServerFn} from '@tanstack/react-start'
 
-const fetchPosts = createServerFn({ method: 'GET' }).handler(() => {
+import {PostList} from '~/components/post/PostList'
+import {getAllPosts} from '~/lib/posts'
+
+const fetchPosts = createServerFn({method: 'GET'}).handler(() => {
     return getAllPosts()
 })
 

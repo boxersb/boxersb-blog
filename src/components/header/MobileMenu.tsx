@@ -1,20 +1,21 @@
-import { useState } from 'react'
-import { Link } from '@tanstack/react-router'
+import {useState} from 'react'
+
+import {Link} from '@tanstack/react-router'
 
 interface NavItem {
     to: string
     label: string
 }
 
-interface MobileMenuProps {
+interface MobileMenuProperties {
     items: readonly NavItem[]
 }
 
-export function MobileMenu({ items }: MobileMenuProps) {
+export function MobileMenu({items}: MobileMenuProperties) {
     const [isOpen, setIsOpen] = useState(false)
 
     const close = () => setIsOpen(false)
-    const toggle = () => setIsOpen((prev) => !prev)
+    const toggle = () => setIsOpen((previous) => !previous)
 
     return (
         <div className="md:hidden">
@@ -75,14 +76,14 @@ export function MobileMenu({ items }: MobileMenuProps) {
                                     to={item.to as '/' | '/projects' | '/about' | '/resume'}
                                     onClick={close}
                                     className="block px-3 py-2 text-sm rounded-md transition-colors duration-[--duration-fast] hover:bg-[var(--color-surface-alt)]"
-                                    style={{ color: 'var(--color-text-muted)' }}
+                                    style={{color: 'var(--color-text-muted)'}}
                                     activeProps={{
                                         style: {
                                             color: 'var(--color-text)',
                                             fontWeight: 500,
                                         },
                                     }}
-                                    {...(item.to === '/' ? { activeOptions: { exact: true } } : {})}
+                                    {...(item.to === '/' ? {activeOptions: {exact: true}} : {})}
                                 >
                                     {item.label}
                                 </Link>

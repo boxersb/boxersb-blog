@@ -1,15 +1,17 @@
 'use client'
 
-import { useState } from 'react'
-import type { PostMeta } from '~/lib/posts'
-import { CategoryTabs } from './CategoryTabs'
-import { PostCard } from './PostCard'
+import {useState} from 'react'
 
-interface PostListProps {
+import {CategoryTabs} from './CategoryTabs'
+import {PostCard} from './PostCard'
+
+import type {PostMeta} from '~/lib/posts'
+
+interface PostListProperties {
     posts: PostMeta[]
 }
 
-export function PostList({ posts }: PostListProps) {
+export function PostList({posts}: PostListProperties) {
     const [selectedCategory, setSelectedCategory] = useState('all')
 
     const filteredPosts =
@@ -22,7 +24,7 @@ export function PostList({ posts }: PostListProps) {
                 {filteredPosts.length === 0 ? (
                     <p
                         className="py-12 text-center text-base"
-                        style={{ color: 'var(--color-text-muted)' }}
+                        style={{color: 'var(--color-text-muted)'}}
                     >
                         이 카테고리에 아직 포스트가 없습니다.
                     </p>

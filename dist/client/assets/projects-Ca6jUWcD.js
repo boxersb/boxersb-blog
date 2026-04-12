@@ -1,0 +1,1 @@
+import{j as e}from"./index-suTeQcfR.js";function o(){return e.jsxs("main",{className:"mx-auto max-w-[1080px] px-4 py-10",children:[e.jsx("h1",{className:"mb-6 text-[clamp(32px,5vw,42px)] font-bold leading-[1.2]",children:"Projects"}),e.jsx("p",{style:{color:"var(--color-text-muted)"},children:"프로젝트가 준비 중입니다."})]})}export{o as component};

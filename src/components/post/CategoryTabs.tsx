@@ -1,23 +1,23 @@
 const CATEGORIES = [
-    { value: 'all', label: 'All' },
-    { value: 'dev', label: '개발' },
-    { value: 'essay', label: '에세이' },
-    { value: 'life', label: '일상' },
+    {value: 'all', label: 'All'},
+    {value: 'dev', label: '개발'},
+    {value: 'essay', label: '에세이'},
+    {value: 'life', label: '일상'},
 ] as const
 
-interface CategoryTabsProps {
+interface CategoryTabsProperties {
     selected: string
     onSelect: (category: string) => void
 }
 
-export function CategoryTabs({ selected, onSelect }: CategoryTabsProps) {
+export function CategoryTabs({selected, onSelect}: CategoryTabsProperties) {
     return (
         <div
             role="tablist"
             aria-label="카테고리 필터"
             className="flex gap-6 border-b border-[var(--color-border)]"
         >
-            {CATEGORIES.map(({ value, label }) => {
+            {CATEGORIES.map(({value, label}) => {
                 const isActive = selected === value
                 return (
                     <button
@@ -36,7 +36,7 @@ export function CategoryTabs({ selected, onSelect }: CategoryTabsProps) {
                             <span
                                 aria-hidden="true"
                                 className="absolute bottom-0 left-0 right-0 h-0.5"
-                                style={{ backgroundColor: 'var(--color-text)' }}
+                                style={{backgroundColor: 'var(--color-text)'}}
                             />
                         )}
                     </button>
