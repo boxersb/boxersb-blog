@@ -12,11 +12,7 @@ interface CategoryTabsProperties {
 
 export function CategoryTabs({selected, onSelect}: CategoryTabsProperties) {
     return (
-        <div
-            role="tablist"
-            aria-label="카테고리 필터"
-            className="flex gap-6 border-b border-[var(--color-border)]"
-        >
+        <div role="tablist" aria-label="카테고리 필터" className="flex gap-6 border-b border-[var(--color-border)]">
             {CATEGORIES.map(({value, label}) => {
                 const isActive = selected === value
                 return (

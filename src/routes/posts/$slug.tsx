@@ -8,7 +8,6 @@ import * as runtime from 'react/jsx-runtime'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 
-
 import type {PostCategory} from '~/lib/posts'
 
 import {mdxComponents} from '~/components/mdx/MdxComponents'

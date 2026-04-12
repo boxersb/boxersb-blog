@@ -26,11 +26,7 @@ export function Header() {
         >
             <div className="mx-auto max-w-[1080px] h-14 px-4 flex items-center justify-between">
                 <div className="flex items-center gap-6">
-                    <Link
-                        to="/"
-                        className="text-lg font-bold"
-                        style={{color: 'var(--color-text)'}}
-                    >
+                    <Link to="/" className="text-lg font-bold" style={{color: 'var(--color-text)'}}>
                         boxersb
                     </Link>
 

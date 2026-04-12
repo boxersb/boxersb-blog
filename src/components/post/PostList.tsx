@@ -22,10 +22,7 @@ export function PostList({posts}: PostListProperties) {
             <CategoryTabs selected={selectedCategory} onSelect={setSelectedCategory} />
             <div>
                 {filteredPosts.length === 0 ? (
-                    <p
-                        className="py-12 text-center text-base"
-                        style={{color: 'var(--color-text-muted)'}}
-                    >
+                    <p className="py-12 text-center text-base" style={{color: 'var(--color-text-muted)'}}>
                         이 카테고리에 아직 포스트가 없습니다.
                     </p>
                 ) : (

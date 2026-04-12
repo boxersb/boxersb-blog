@@ -20,7 +20,7 @@ export interface PostMeta {
     readingTime: string
 }
 
-function parseMdxFile(slug: string): { meta: PostMeta; content: string } | null {
+function parseMdxFile(slug: string): {meta: PostMeta; content: string} | null {
     const filePath = path.join(POSTS_DIR, `${slug}.mdx`)
 
     if (!fs.existsSync(filePath)) {

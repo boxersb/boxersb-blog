@@ -38,7 +38,7 @@ function RootComponent() {
     )
 }
 
-function RootDocument({children}: Readonly<{ children: ReactNode }>) {
+function RootDocument({children}: Readonly<{children: ReactNode}>) {
     return (
         <html lang="ko">
             <head>

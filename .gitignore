@@ -2,15 +2,12 @@
 .env
 /node_modules/
 
-# React Router
-/.react-router/
+# Build output
+/dist/
 /build/
 
 # IDE settings
 .vscode/
-
-# contentlayer
-.contentlayer
 
 # TanStack
 .vinxi/
