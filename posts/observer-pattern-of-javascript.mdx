@@ -1,0 +1,173 @@
+---
+title: Javascript에서 옵저버 패턴 활용하기
+date: 2010-04-01
+category: dev
+description: MVC 패턴에서 결합도를 낮추기 위한 옵저버 패턴의 구현과 커스텀 이벤트 시스템 활용법을 소개합니다.
+tags: [javascript, design-pattern, observer]
+---
+
+## 옵저버 패턴이란?
+
+옵저버 패턴은 여러 클래스 간의 관계를 유지하면서 결합도를 낮추기 위해 "객체의 상태를 관찰하는 방법을 사용하는 디자인 패턴"이다.
+
+## 문제점: 높은 결합도
+
+전통적인 MVC 패턴에서는 Model과 View가 Controller의 참조를 갖고 있어야 한다:
+
+```javascript
+Controller.Model = new Model(Controller);
+Controller.View = new View(Controller);
+
+Model = function (controller) {
+    this.controller = controller;
+};
+Model.prototype = {
+    getMemberList: function () {
+        this.controller.printMemberList();
+    },
+};
+```
+
+이러한 방식은 재사용성을 떨어뜨리고 유지보수를 어렵게 한다.
+
+## 해결방안: 커스텀 이벤트
+
+DOM 이벤트 모델처럼, Model과 View는 Controller의 참조 없이 이벤트만으로 작동할 수 있다:
+
+```javascript
+var Controller = function () {
+    this.Model = new Model();
+    this.View = new View();
+    this.bindEvents();
+    this.Model.getMemberList();
+};
+Controller.prototype = {
+    bindEvents: function () {
+        this.Model.addEvent('onGetMemberListComplete', this.printMemberList);
+    },
+    printMemberList: function (data) {
+        this.View.showMemberList(data);
+    },
+};
+```
+
+## Observer 구현
+
+```javascript
+var Observer = {
+    EVENTID: 0,
+    addEvent: function (type, hnd) {
+        if (!this.listeners) this.listeners = {};
+        if (!this.listeners[type]) this.listeners[type] = {};
+        var eventId = Observer.EVENTID++;
+        this.listeners[type][eventId] = hnd;
+        return eventId;
+    },
+
+    fireEvent: function (type) {
+        if (!this.listeners || !this.listeners[type]) return false;
+        var handlers = this.listeners[type],
+            eventId,
+            args = Array.prototype.slice.call(arguments);
+        args.shift();
+        for (eventId in handlers)
+            if (handlers.hasOwnProperty(eventId)) {
+                if (eventId !== 'stop') {
+                    if (!handlers[eventId].stop) {
+                        handlers[eventId].apply(this, args);
+                    }
+                }
+            }
+    },
+
+    removeEvent: function (type, hnd) {
+        if (!this.listeners || !this.listeners[type]) return -1;
+        var handlers = this.listeners[type],
+            eventId = -1;
+        if (typeof hnd === 'function') {
+            for (eventId in handlers)
+                if (handlers.hasOwnProperty(eventId)) {
+                    if (handlers[eventId] === hnd) {
+                        delete handlers[eventId];
+                        break;
+                    }
+                }
+        } else {
+            if (handlers[hnd]) delete handlers[hnd];
+        }
+    },
+
+    stopEvent: function (type, hnd) {
+        if (!this.listeners || !this.listeners[type]) return -1;
+        var handlers = this.listeners[type],
+            eventId = -1;
+        if (hnd) {
+            if (typeof hnd === 'function') {
+                for (eventId in handlers)
+                    if (handlers.hasOwnProperty(eventId)) {
+                        if (handlers[eventId] === hnd) {
+                            handlers[eventId].stop = true;
+                        }
+                    }
+            } else {
+                handlers[hnd].stop = true;
+            }
+        } else {
+            handlers.stop = true;
+        }
+    },
+
+    restoreEvent: function (type, hnd) {
+        if (!this.listeners || !this.listeners[type]) return -1;
+        var handlers = this.listeners[type],
+            eventId = -1;
+        if (hnd) {
+            if (typeof hnd === 'function') {
+                for (eventId in handlers)
+                    if (handlers.hasOwnProperty(eventId)) {
+                        if (handlers[eventId] === hnd) {
+                            handlers[eventId].stop = false;
+                        }
+                    }
+            } else {
+                handlers[hnd].stop = false;
+            }
+        } else {
+            handlers.stop = false;
+        }
+    },
+
+    applyObserver: function (tclass) {
+        for (var p in this) {
+            if (this[p] !== arguments.callee) {
+                tclass.prototype[p] = this[p];
+            }
+        }
+        return true;
+    },
+};
+```
+
+## 사용 예시
+
+```javascript
+Observer.applyObserver(Controller);
+
+Model = function () {};
+Model.prototype = {
+    getMemberList: function () {
+        var data = xhr.responseXML;
+        this.fireEvent('onGetMemberListComplete', data);
+    },
+};
+Observer.applyObserver(Model);
+```
+
+## API 메서드
+
+- **addEvent(type, handler)** — 관찰할 이벤트 추가
+- **fireEvent(type, args...)** — 이벤트 핸들러 호출
+- **removeEvent(type, handler)** — 옵저버 제거
+- **stopEvent(type, handler)** — 옵저버 일시 정지
+- **restoreEvent(type, handler)** — 정지된 옵저버 복원
+- **applyObserver(tclass)** — 클래스에 Observer API 확장

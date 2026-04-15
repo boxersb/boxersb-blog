@@ -1,0 +1,111 @@
+---
+title: TypeScript 언어 명세 - 개요
+date: 2013-03-20
+category: dev
+description: TypeScript의 타입 시스템, 앰비언트 선언, 클래스, 모듈 등 언어 명세의 핵심 개념을 정리합니다.
+tags: [typescript, javascript, language-spec]
+---
+
+## 언어의 기본 컨셉
+
+TypeScript는 대규모 JavaScript 애플리케이션을 위해 설계된 대안 언어다. 기존 JavaScript 라이브러리 및 컴포넌트와의 호환성을 유지하면서 충돌 없이 사용할 수 있다.
+
+TypeScript는 **ES5 (ECMAScript 5) 문법의 상위 집합(Super Set)**이다. 즉, 모든 JavaScript 프로그램은 유효한 TypeScript 프로그램이다. 컴파일러는 TypeScript를 JavaScript로 변환하면서 변수 순서와 이름을 보존한다.
+
+클래스는 전통적인 객체 지향 프로그래밍 패턴을 기반으로 상속과 같은 기능들을 JavaScript보다 훨씬 표현력 있게 사용할 수 있다.
+
+### 타입 시스템
+
+TypeScript는 JSDoc 주석 대신 통합된 타입 어노테이션을 제공한다. 시스템은 타입 추론을 지원하며, 예를 들어 `var i = 0;`은 자동으로 `i`를 number 타입으로 추론한다.
+
+```typescript
+function f(s: string) {
+    return s;
+}
+
+f({}); // Error
+f('hello'); // Ok
+```
+
+타입 어노테이션은 컴파일 시 제거되어, 런타임 전에 컴파일 타임 타입 검사를 가능하게 한다.
+
+## 앰비언트 선언 (Ambient Declarations)
+
+TypeScript 컴파일러는 기본적으로 정의되지 않은 변수에 접근 시 오류를 발생시킨다. 앰비언트 선언을 통해 `document`나 외부 라이브러리 같은 미정의 변수를 사용할 수 있다:
+
+```typescript
+declare var document;
+declare var $;
+```
+
+## Function 타입
+
+함수는 표현력 있는 타입 정의를 지원한다:
+
+```typescript
+function vote(candidate: string, callback: (result: string) => any) {
+    // do Something..
+}
+```
+
+## Object 타입
+
+인터페이스를 사용해 구조화된 객체 형태를 정의할 수 있다:
+
+```typescript
+interface Friend {
+    name: string;
+    favoriteColor?: string;
+}
+```
+
+## 구조체 서브타이핑 (Structural Subtyping)
+
+객체 타입은 구조적으로 비교가 가능하다. 명시적 선언이 아닌 구조적 호환성을 기반으로 타입이 매칭된다.
+
+## 문맥 기반 타이핑 (Contextual Typing)
+
+몇 가지 제한된 문맥에서는 표현식의 문맥으로부터 "top-down(위에서 아래)"으로 타입을 추정한다. 이를 통해 개발 도구가 개발자가 모든 세부 사항을 알지 못해도 적절한 정보를 제공할 수 있다.
+
+## 클래스 (Classes)
+
+TypeScript는 ES6 스타일의 클래스 문법을 제공한다:
+
+```typescript
+class BankAccount {
+    constructor(public balance: number) {}
+    deposit(credit: number) {
+        this.balance += credit;
+        return this.balance;
+    }
+}
+
+class CheckingAccount extends BankAccount {
+    constructor(balance: number) {
+        super(balance);
+    }
+    writeCheck(debit: number) {
+        this.balance -= debit;
+    }
+}
+```
+
+클래스는 상속, 생성자, 정적 멤버를 지원한다.
+
+## 모듈 (Modules)
+
+모듈은 네임스페이스 기능을 제공하여 대부분의 소프트웨어 컴포넌트가 전역 네임스페이스를 사용하지 않아도 되도록 한다.
+
+```typescript
+module M {
+    var s = 'hello';
+    export function f() {
+        return s;
+    }
+}
+
+M.f();
+M.s; // 오류, s는 추출되지 않았다.
+```
+
+TypeScript는 내부 모듈과 외부 모듈을 모두 지원하며, 컴파일러가 클로저 패턴이나 AMD 같은 동적 로딩 시스템을 활용하는 적절한 JavaScript 코드를 생성한다.

@@ -1,0 +1,105 @@
+---
+title: Object의 toString과 valueOf 메서드에 대한 고찰
+date: 2010-04-05
+category: dev
+description: JavaScript에서 객체의 암시적 타입 변환을 다루는 toString과 valueOf 메서드의 동작 원리와 활용법을 분석합니다.
+tags: [javascript, object, type-conversion]
+---
+
+Ben Cherry의 "magic of Object - primitive conversions" 아티클을 기반으로, JavaScript가 `toString`과 `valueOf` 메서드를 통해 암시적 타입 변환을 처리하는 방법을 살펴본다.
+
+## 기본 동작
+
+객체가 `alert()`나 콘솔을 통해 표시될 때, JavaScript는 내부적으로 객체의 `toString` 메서드를 호출한다:
+
+```javascript
+alert({}); // [object Object]
+alert(function () {}); // function(){}
+alert(1); // 1
+alert('hello'); // hello
+alert(true); // true
+alert([1, 2, 3]); // 1,2,3
+```
+
+## valueOf 이해하기
+
+`toString`이 표시 표현을 처리하는 반면, `valueOf`는 연산에 사용되는 값을 반환한다:
+
+```javascript
+alert({} + {}); // [object Object][object Object]
+alert(function () {} + function () {}); // function(){}function(){}
+alert(1 + 1); // 2
+alert('hello' + 'world'); // helloworld
+alert(true + true); // 2
+alert([1, 2, 3] + [4, 5, 6]); // 1,2,34,5,6
+```
+
+## 실전 예제
+
+효과적인 구현 예시:
+
+```javascript
+function population(country, pop) {
+    return {
+        country: country,
+        pop: pop,
+
+        toString: function () {
+            return '[Population ' + '"' + country + '" ' + pop + ']';
+        },
+
+        valueOf: function () {
+            return pop;
+        },
+    };
+}
+
+var america_pop = population('USA', 350e6);
+var mexico_pop = population('Mexico', 200e6);
+var canada_pop = population('Canada', 200e6);
+
+alert(america_pop); // [Population "USA" 350000000]
+
+var north_america_pop = america_pop + mexico_pop + canada_pop;
+
+alert(north_america_pop); // 750000000
+```
+
+## 장점
+
+이 메서드들을 활용하는 커스텀 객체의 이점:
+
+- 더 깔끔하고 직관적인 코드
+- 의미 있는 출력을 통한 향상된 디버깅 능력
+- ECMA 명세에 따른 크로스 브라우저 호환성
+
+## 안티 패턴 경고
+
+일관성 없는 구현을 피해야 한다:
+
+```javascript
+var foo = {
+    toString: function () {
+        return 5;
+    },
+    valueOf: function () {
+        return 'foo';
+    },
+};
+alert(foo.toString() + 1); // 6 (bad!)
+alert(foo + 1); // "foo1" (no good!)
+alert(+foo); // NaN (the worst!)
+```
+
+## 성능 고려사항
+
+대부분의 브라우저에서 명시적 메서드 호출이 암시적 변환보다 성능이 좋다 (1,000,000회 반복 기준):
+
+| 브라우저 | 암시적 | 명시적 | 차이 |
+|---------|--------|--------|------|
+| Firefox 3.6.2 | 874ms | 320ms | ~3배 빠름 |
+| Chrome 5 | 94ms | 47ms | ~2배 빠름 |
+| Opera 10.50 | 115ms | 182ms | 약간 느림 |
+| Safari 4 | 409ms | 280ms | ~2배 빠름 |
+| IE8 | 2856ms | 2786ms | 거의 동일 |
+| IE9 | 645ms | 633ms | 거의 동일 |

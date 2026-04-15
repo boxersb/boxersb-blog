@@ -1,0 +1,86 @@
+---
+title: Jekyll 소개
+date: 2013-04-03
+category: dev
+description: Jekyll과 GitHub Pages를 이용한 블로그 구축 방법을 소개합니다. 설치부터 테마, 댓글, 배포까지.
+tags: [jekyll, github-pages, blog]
+---
+
+## Jekyll(지킬) 이란?
+
+Jekyll은 템플릿과 마크다운 같은 동적 컴포넌트를 정적 웹페이지로 변환하는 Ruby Gem이다. 이 블로깅 플랫폼은 현재 이 웹사이트를 구동하고 있으며, Jekyll 커뮤니티 문서에서 다른 많은 예시를 찾아볼 수 있다.
+
+## Github Pages와 Jekyll을 이용한 블로그 만들기
+
+GitHub Pages와 Jekyll을 함께 사용하면 git 기반 블로깅이 가능하며, RSS와 Atom을 지원한다. Disqus나 Facebook 댓글 같은 소셜 기능도 통합할 수 있다.
+
+### Jekyll 설치
+
+```bash
+$ gem install jekyll
+```
+
+### Jekyll-Bootstrap 설치
+
+GitHub에 `SITENAME.github.com`이라는 이름의 저장소를 만든 후:
+
+```bash
+$ git clone https://github.com/plusjade/jekyll-bootstrap.git SITENAME.github.com
+$ cd SITENAME.github.com
+$ git remote set-url origin git@github.com:YOURACCOUNT/SITENAME.github.com.git
+$ git push origin master
+```
+
+Very Simple!!
+
+### 로컬 서버 띄우기
+
+```bash
+$ jekyll --server
+```
+
+변경 사항에서 자동으로 정적 HTML 파일을 생성하며, `http://localhost:4000`에서 테스트할 수 있다.
+
+### 테마 사용하기
+
+**설치:**
+
+```bash
+$ rake theme:install git="https://github.com/jekyllbootstrap/theme-the-program.git"
+```
+
+**전환:**
+
+```bash
+$ rake theme:switch name="the-program"
+```
+
+## Jekyll 설정하기
+
+설정은 `_config.yml`에서 이루어지며, 퍼머링크 스키마, 사이트 소유자 정보, 외부 도구를 관리한다.
+
+### 댓글 사용하기
+
+Facebook이나 다른 제공자의 댓글 섹션을 설정할 수 있다.
+
+### 사이트 분석툴 사용하기
+
+Google Analytics와 기타 추적 도구를 설정을 통해 통합할 수 있다.
+
+## 블로깅하기
+
+### 새 포스트 만들기
+
+```bash
+$ rake post title="Hello World"
+```
+
+커스터마이징을 위한 기본 YAML 프론트매터가 포함된 마크다운 파일이 생성된다.
+
+### 배포하기
+
+```bash
+$ git add .
+$ git commit -m "message"
+$ git push origin master
+```

@@ -1,0 +1,98 @@
+---
+title: AngularJS의 MVC 패턴 개요
+date: 2013-08-27
+category: dev
+description: AngularJS 공식 문서를 기반으로 Model, Controller, View의 역할과 MVC 패턴 적용 방법을 정리합니다.
+tags: [angularjs, javascript, mvc]
+---
+
+## Angular의 MVC
+
+Angular는 전통적인 MVC 원칙을 클라이언트 사이드 웹 개발에 적용한다. 이 패턴은 애플리케이션을 표현(Presentation), 데이터(Data), 로직(Logic)으로 분리하고, 각 요소 간의 느슨한 결합을 강조한다.
+
+서비스와 의존성 주입(Dependency Injection)이 구조, 유지보수성, 테스트 용이성을 강화한다.
+
+## Model에 대한 이해
+
+Angular에서 모델은 Scope 객체의 프로퍼티로 접근 가능한 데이터다. 어떤 JavaScript 객체든 스코프 프로퍼티로 참조되면 모델이 될 수 있다.
+
+모델은 다음과 같이 명시적으로 생성된다:
+
+- 컨트롤러에서 직접 프로퍼티 할당
+- 템플릿의 Angular 표현식
+- `ngInit` 디렉티브 (프로덕션에서는 비권장)
+
+또한 다음과 같이 암시적으로 생성되기도 한다:
+
+- `ng-model`이 있는 폼 요소 (`input`, `select`, `textarea`)
+- 자식 스코프를 생성하는 `ng-repeat` 선언
+
+**핵심 원칙:** "스코프 프로퍼티로 참조되지 않은 객체는 Angular 모델이 아니다."
+
+## Controller에 대한 이해
+
+컨트롤러는 Angular 스코프 인스턴스를 확장하는 JavaScript 함수다(루트 스코프 제외). 주요 역할은:
+
+1. 스코프의 초기 상태 설정
+2. 스코프에 동작(behavior)/메서드 추가
+
+### 모범 사례
+
+컨트롤러는 가벼워야 하며, 뷰에 특화된 비즈니스 로직만 포함해야 한다. 복잡한 로직은 의존성 주입을 통해 서비스에 위임한다.
+
+**컨트롤러에서 피해야 할 것:**
+
+- DOM 조작 (디렉티브를 사용)
+- 입력 포매팅 (폼 컨트롤을 사용)
+- 출력 필터링 (필터를 사용)
+- 컨트롤러 간 상태 공유 (서비스를 사용)
+
+### 예제: SpicyCtrl
+
+```javascript
+function SpicyCtrl($scope) {
+    $scope.spice = 'very';
+    $scope.chiliSpicy = function () {
+        $scope.spice = 'chili';
+    };
+    $scope.jalapenoSpicy = function () {
+        $scope.spice = 'jalapeño';
+    };
+}
+```
+
+### 컨트롤러 상속
+
+컨트롤러는 스코프 상속을 통해 계층 구조를 형성한다. 중첩된 컨트롤러는 오버라이드하지 않는 한 부모 스코프의 프로퍼티에 접근할 수 있다.
+
+### 컨트롤러 테스트
+
+컨트롤러는 `$rootScope`와 `$controller`를 주입하여 테스트한다:
+
+```javascript
+describe('myController', function () {
+    var scope;
+    beforeEach(
+        inject(function ($rootScope, $controller) {
+            scope = $rootScope.$new();
+            var ctrl = $controller(myController, { $scope: scope });
+        }),
+    );
+
+    it('should create model', function () {
+        expect(scope.spices.length).toBe(3);
+    });
+});
+```
+
+## View에 대한 이해
+
+뷰는 브라우저에 렌더링되는 DOM이다. Angular는 템플릿, 컨트롤러, 모델 정보를 기반으로 DOM을 변환한다.
+
+뷰는 다음을 통해 모델과 컨트롤러를 인식한다:
+
+- 양방향 데이터 바인딩 (모델 인식)
+- `ngController`, `ngView` 같은 Angular 디렉티브 (컨트롤러 인식)
+- 컨트롤러 메서드 호출을 가능하게 하는 표현식 바인딩
+
+이 아키텍처 덕분에 뷰는 컨트롤러의 함수를 동적으로 호출할 수 있다.
